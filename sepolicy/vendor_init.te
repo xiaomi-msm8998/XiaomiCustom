@@ -1,0 +1,6 @@
+type vendor_init, file_type, domain;
+
+allow vendor_init { sysfs_sectouch sysfs_vibrator sysfs_kcal_file sysfs_fastcharge }:dir search;
+allow vendor_init { sysfs_sectouch sysfs_vibrator sysfs_kcal_file sysfs_fastcharge }:file rw_file_perms;
+
+allow vendor_init sysfs_cpu_boost:dir write;

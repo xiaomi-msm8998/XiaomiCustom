@@ -1,6 +1,4 @@
-binder_call(system_app, wificond);
+allow system_app { sysfs_sectouch sysfs_vibrator sysfs_kcal_file sysfs_fastcharge }:dir search;
+allow system_app { sysfs_sectouch sysfs_vibrator sysfs_kcal_file sysfs_fastcharge }:file rw_file_perms;
 
-allow system_app sysfs_vibrator:file rw_file_perms;
-allow system_app sysfs_vibrator:dir rw_dir_perms;
-
-set_prop(system_app, spectrum_prop);
+set_prop(vendor_init, spectrum_prop);

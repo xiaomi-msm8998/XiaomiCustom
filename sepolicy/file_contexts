@@ -1,0 +1,5 @@
+# KCAL
+/sys/devices/platform/kcal_ctrl.0/kcal(*)                u:object_r:sysfs_kcal_control:s0
+
+# Kernel fast charge
+# /sys/kernel/fast_charge/force_fast_charge              u:object_r:sysfs_fastcharge:s0
