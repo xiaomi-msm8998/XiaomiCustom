@@ -68,6 +68,12 @@
             android:title="@string/swap_hw_buttons_title"
             android:summary="@string/swap_hw_buttons_summary"
             android:icon="@drawable/ic_swap_buttons" />
+        <SwitchPreference
+            android:key="buttons_disable"
+            android:defaultValue="false"
+            android:title="@string/disable_hw_buttons_title"
+            android:summary="@string/disable_hw_buttons_summary"
+            android:icon="@drawable/ic_disable_buttons" />
     </PreferenceCategory>
 
     <PreferenceCategory

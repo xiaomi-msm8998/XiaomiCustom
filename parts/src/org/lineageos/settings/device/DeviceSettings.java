@@ -59,6 +59,9 @@ public class DeviceSettings extends PreferenceFragment implements
     public static final String BUTTONS_SWAP_KEY = "buttons_swap";
     public static final String BUTTONS_SWAP_PATH = "/proc/touchpanel/reversed_keys_enable";
 
+    public static final String BUTTONS_DISABLE_KEY = "buttons_disable";
+    public static final String BUTTONS_DISABLE_PATH = "/proc/touchpanel/capacitive_keys_enable";
+
     public static final String USB_FASTCHARGE_KEY = "fastcharge";
     public static final String USB_FASTCHARGE_PATH = "/sys/kernel/fast_charge/force_fast_charge";
 
@@ -71,7 +74,9 @@ public class DeviceSettings extends PreferenceFragment implements
     private Preference mKcalPref;
     private ListPreference mSPECTRUM;
     private SwitchPreference mButtonSwap;
-    private PreferenceCategory mHWButtons;
+    private PreferenceCategory mHWButtonSwap;
+    private SwitchPreference mButtonDisable;
+    private PreferenceCategory mHWButtonDisable;
     private SwitchPreference mFastcharge;
     private PreferenceCategory mUsbFastcharge;
 
@@ -96,8 +101,17 @@ public class DeviceSettings extends PreferenceFragment implements
             mButtonSwap.setChecked(FileUtils.getFileValueAsBoolean(BUTTONS_SWAP_PATH, false));
             mButtonSwap.setOnPreferenceChangeListener(this);
         } else {
-            mHWButtons = (PreferenceCategory) prefSet.findPreference("hw_buttons");
-            prefSet.removePreference(mHWButtons);
+            mHWButtonSwap = (PreferenceCategory) prefSet.findPreference("hw_buttons");
+            prefSet.removePreference(mHWButtonSwap);
+        }
+
+        if (FileUtils.isFileWritable(BUTTONS_DISABLE_PATH)) {
+            mButtonDisable = (SwitchPreference) findPreference(BUTTONS_DISABLE_KEY);
+            mButtonDisable.setChecked(FileUtils.getFileValueAsBoolean(BUTTONS_DISABLE_PATH, false));
+            mButtonDisable.setOnPreferenceChangeListener(this);
+        } else {
+            mHWButtonDisable = (PreferenceCategory) prefSet.findPreference("hw_buttons");
+            prefSet.removePreference(mHWButtonDisable);
         }
 
         if (FileUtils.isFileWritable(USB_FASTCHARGE_PATH)) {
@@ -130,6 +144,10 @@ public class DeviceSettings extends PreferenceFragment implements
         FileUtils.writeValue(BUTTONS_SWAP_PATH, value ? "1" : "0");
     }
 
+    private void setButtonDisable(boolean value) {
+        FileUtils.writeValue(BUTTONS_DISABLE_PATH, value ? "0" : "1");
+    }
+
     private void setFastcharge(boolean value) {
         FileUtils.writeValue(USB_FASTCHARGE_PATH, value ? "1" : "0");
     }
@@ -154,6 +172,14 @@ public class DeviceSettings extends PreferenceFragment implements
             setButtonSwap(value);
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
             editor.putBoolean(BUTTONS_SWAP_KEY, value);
+            editor.commit();
+            return true;
+        } else if (BUTTONS_DISABLE_KEY.equals(key)) {
+            value = (Boolean) newValue;
+            mButtonDisable.setChecked(value);
+            setButtonDisable(value);
+            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
+            editor.putBoolean(BUTTONS_DISABLE_KEY, value);
             editor.commit();
             return true;
         } else if (USB_FASTCHARGE_KEY.equals(key)) {
