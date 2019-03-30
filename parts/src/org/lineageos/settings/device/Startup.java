@@ -51,8 +51,6 @@ public class Startup extends BroadcastReceiver {
         VibratorStrengthPreference.restore(context);
         boolean btnSwapStoredValue = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(DeviceSettings.BUTTONS_SWAP_KEY, false);
         FileUtils.writeValue(DeviceSettings.BUTTONS_SWAP_PATH, btnSwapStoredValue ? "1" : "0");
-        boolean btnDisableStoredValue = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(DeviceSettings.BUTTONS_DISABLE_KEY, false);
-        FileUtils.writeValue(DeviceSettings.BUTTONS_DISABLE_PATH, btnDisableStoredValue ? "0" : "1");
         boolean usbFastchargeStoredValue = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(DeviceSettings.USB_FASTCHARGE_KEY, false);
         FileUtils.writeValue(DeviceSettings.USB_FASTCHARGE_PATH, usbFastchargeStoredValue ? "1" : "0" );
         DisplayCalibration.restore(context);
